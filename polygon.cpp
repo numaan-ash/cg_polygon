@@ -52,31 +52,6 @@ void Polygon::draw() {
 
 }
 
-void Polygon::drawLines() {
-	glBegin(GL_LINE_STRIP);
-	
-	for(int vertexIndex =0; vertexIndex < numVertices; vertexIndex++ )
-		glVertex2f(  vertices[vertexIndex].x, vertices[vertexIndex].y );
-		
-	glEnd();
-	glFlush();
-}
-
-void Polygon::drawPoints() {
-	
-	glBegin(GL_POINTS);
-	printf("\n Adding vertex:");
-	
-	for(int vertexIndex =0; vertexIndex < numVertices; vertexIndex++ ) {
-		glVertex2f(  vertices[vertexIndex].x, vertices[vertexIndex].y );
-		// printf(" (%f, %f) ", vertices[vertexIndex].x, vertices[vertexIndex].y );
-	}
-		
-	glEnd();
-	glFlush();
-
-}
-
 void Polygon::drawLabels() {
 
 	for(int vertexIndex =0; vertexIndex < numVertices; vertexIndex++ ) {

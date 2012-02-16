@@ -12,8 +12,6 @@ Polygon p(MAX_NUM_VERTICES);
 bool SHOW_POLYGON = false;
 bool FILL_POLYGON = false;
 
-
-
 void myInit(void) {
 	
 	glClearColor(1.0, 1.0, 1.0, 0.0); // set whitebackground color
@@ -47,11 +45,21 @@ void drawText() {
 
 void myKeyHandler( unsigned char key, int x, int y) {
 
-	if (key == 27)
-		exit(1);
-	
-	printf("\n key pressed is %c at (%d, %d)", key , x, y);
+	printf("\nKey pressed is %c at (%d, %d)", key , x, y);
 
+	switch (key) {
+		
+		case '1': p.currentMode = POINTS; break;
+		case '2': p.currentMode = LINES; break;
+		case '3': p.currentMode = LINE_LOOP; break;
+		case '4': p.currentMode = POLYGON; break;
+		case 'c': 
+		case 'C': p.currentMode = CLEAR; p.clearVertices(); break;
+		case 27: exit(1); break;
+	}
+	
+	myDisplay();
+	
 }
 
 void myMouseHandler( int button, int state, int x, int y ) {
@@ -59,8 +67,7 @@ void myMouseHandler( int button, int state, int x, int y ) {
 	if (state == GLUT_DOWN) {
 		printf("\nAdding vertex (%d, %d) to polygon", x, screenHeight- y);
 		p.addVertex(  x, screenHeight- y);
-		p.draw();
-		glFlush();
+		myDisplay();
 	}
 }
 
@@ -99,9 +106,10 @@ int main(int argc, char* argv[]) {
 
 	glutInit(&argc,argv);// Initialize  the toolkit
 	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);// set Display mode
+	
 	glutInitWindowSize(640,480);// set window size
 	glutInitWindowPosition(100,150);// set window position on screen
-	glutCreateWindow("Polygon filling");// open the screen window
+	glutCreateWindow("POLYGON");// open the screen window
 	
 	glutDisplayFunc(myDisplay);	// redraw function
 	glutKeyboardFunc(myKeyHandler); // key press handler
