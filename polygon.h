@@ -3,6 +3,8 @@ struct Point {
 	float y;
 };
 
+enum Menu { POINTS, LINES, LINE_LOOP, POLYGON, CLEAR, EXIT };
+
 class Polygon {
 
 private:
@@ -12,15 +14,14 @@ private:
 	Point* vertices;
 
 public:
-
-	Polygon(int maxVertices) {
-		this->initPolygon(maxVertices);
-	}
-
-	void initPolygon(int maxVertices); 
-	void addVertex(float x, float y);
+	
+	Menu currentMode;
+	
+	Polygon(int);
+	void initPolygon(int); 
+	void addVertex(float, float);
 	void clearVertices();
-	void draw(const bool);
+	void draw();
 	void drawPoints();
 	void drawLines();
 	void drawLabels();

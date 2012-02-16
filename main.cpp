@@ -12,9 +12,7 @@ Polygon p(MAX_NUM_VERTICES);
 bool SHOW_POLYGON = false;
 bool FILL_POLYGON = false;
 
-enum Menu { POINTS, LINES, LINE_LOOP, POLYGON, CLEAR, EXIT };
 
-Menu currChoice;
 
 void myInit(void) {
 	
@@ -33,13 +31,7 @@ void myDisplay(void) {
 
 	glClear(GL_COLOR_BUFFER_BIT);
 
-	if (currChoice == POINTS) p.drawPoints();
-	if (currChoice == LINE_LOOP) p.draw(0);
-	if (currChoice == LINES) p.drawLines();
-	if (currChoice == POLYGON) {
-		glColor3f(0.0f,0.0f,1.0f);
-		p.draw(1);
-	}
+	p.draw();
 
 	glFlush();
 }
@@ -67,7 +59,8 @@ void myMouseHandler( int button, int state, int x, int y ) {
 	if (state == GLUT_DOWN) {
 		printf("\nAdding vertex (%d, %d) to polygon", x, screenHeight- y);
 		p.addVertex(  x, screenHeight- y);
-		//p.drawPoints();
+		p.draw();
+		glFlush();
 	}
 }
 
@@ -77,30 +70,29 @@ void myMenu( int value ) {
 	
 	switch (value) {
 		
-		case 1: currChoice = POINTS;
+		case 1: p.currentMode = POINTS;
 				break;
 				
-		case 2: currChoice = LINES;
+		case 2: p.currentMode = LINES;
 				break;
 		
-		case 3: currChoice = LINE_LOOP;
+		case 3: p.currentMode = LINE_LOOP;
 				break;
 		
-		case 4: currChoice = POLYGON;
+		case 4: p.currentMode = POLYGON;
 				break;
 		
-		case 5: currChoice = CLEAR;
+		case 5: p.currentMode = CLEAR;
 				p.clearVertices();
 				break;
 		
-		case 6: currChoice = EXIT;
+		case 6: p.currentMode = EXIT;
 				exit(1);
 				break;
 			
 	}
 	
 	myDisplay();
-
 }
 
 int main(int argc, char* argv[]) {
@@ -126,6 +118,7 @@ int main(int argc, char* argv[]) {
 	glutAttachMenu( GLUT_RIGHT_BUTTON );
 
 	myInit();	
+	p.currentMode = POINTS;
 	glutMainLoop();
 
 	return 0;

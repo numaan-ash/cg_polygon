@@ -2,6 +2,10 @@
 #include <GLUT/glut.h>
 #include "polygon.h"
 
+Polygon::Polygon(int maxVertices) {
+		this->initPolygon(maxVertices);
+}
+
 void Polygon::initPolygon( int maxVertices ) {
 
 	this->maxVertices = maxVertices;
@@ -24,22 +28,25 @@ void Polygon::addVertex( float x, float y ) {
 
 void Polygon::clearVertices() {
 	this->numVertices = 0;
+	this->currentMode = POINTS;
 	printf("\n Vertices cleared...");
 }
 
-void Polygon::draw(const bool FILL_FLAG) {
-
-	if (!FILL_FLAG)
-		glBegin(GL_LINE_LOOP);
-	else
-		glBegin(GL_POLYGON);
+void Polygon::draw() {
 	
-	printf("\n Adding vertex:");
+	switch (this->currentMode) {
+		
+		case POINTS: glBegin(GL_POINTS); break;
+		case LINES: glBegin(GL_LINE_STRIP); break;
+		case LINE_LOOP: glBegin(GL_LINE_LOOP); break;
+		case POLYGON: glBegin(GL_POLYGON); break;
+		
+	}
 
-	for (int vertexIndex = 0; vertexIndex < numVertices; vertexIndex++ ) {
+	glColor3f(0.0f,0.0f,1.0f);
+
+	for (int vertexIndex = 0; vertexIndex < numVertices; vertexIndex++ )
 		glVertex2f(  vertices[vertexIndex].x, vertices[vertexIndex].y );
-		// printf(" (%f, %f) ", vertices[vertexIndex].x, vertices[vertexIndex].y );
-	}		
 		
 	glEnd();
 
